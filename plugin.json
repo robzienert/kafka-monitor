@@ -1,0 +1,9 @@
+{
+    "description": "Monitors a Kafka cluster's throughput and lag.",
+    "icon": null,
+    "command": "",
+    "postExtract": "",
+    "ignore": "",
+    "metrics": [],
+    "paramSchema": []
+}
