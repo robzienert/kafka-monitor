@@ -1,6 +1,7 @@
 package smartthings.boundary
 
 import kafka.api.PartitionOffsetRequestInfo
+import kafka.cluster.Broker
 import kafka.common.TopicAndPartition
 import kafka.javaapi.OffsetRequest
 import kafka.javaapi.consumer.SimpleConsumer
@@ -13,7 +14,7 @@ class TopicMonitorTask extends TimerTask {
 	List<String> topics
 	String group
 
-	Map<Integer, SimpleConsumer> consumerMap = [:]
+	Map<String, CachedConsumer> consumerMap = [:]
 
 	TopicMonitorTask(CuratorFramework curator, List<String> topics, String group) {
 		this.curator = curator
@@ -41,7 +42,7 @@ class TopicMonitorTask extends TimerTask {
 
 		Integer leader = ZkUtil.getLeaderForPartition(curator, topic, partition)
 		if (leader) {
-			SimpleConsumer consumer = getConsumer(leader)
+			SimpleConsumer consumer = getConsumer(topic, leader)
 
 			if (consumer) {
 				TopicAndPartition tap = new TopicAndPartition(topic, partition)
@@ -66,11 +67,29 @@ class TopicMonitorTask extends TimerTask {
 		return curator.children.forPath("/consumers/${group}/offsets/${topic}").collect { (Integer) it }
 	}
 
-	SimpleConsumer getConsumer(Integer leader) {
-		// TODO Need to support re-connecting to newly elected leaders.
-		if (!consumerMap.containsKey(leader)) {
-			consumerMap.put(leader, ZkUtil.getConsumer(curator, leader))
+	SimpleConsumer getConsumer(String topic, Integer leader) {
+		String key = "${topic}${leader}"
+
+		SimpleConsumer consumer
+		if (consumerMap.containsKey(key)) {
+			CachedConsumer cachedConsumer = consumerMap.get(key)
+
+			if (cachedConsumer.shouldRefresh()) {
+				Broker broker = ZkUtil.getBroker(curator, leader)
+
+				if (cachedConsumer.isStale(broker)) {
+					cachedConsumer.consumer = ZkUtil.getConsumer(broker)
+				}
+			}
+
+			consumer = cachedConsumer.consumer
+		} else {
+			consumer = ZkUtil.getConsumer(ZkUtil.getBroker(curator, leader))
+			if (consumer) {
+				consumerMap.put(key, new CachedConsumer(consumer: consumer))
+			}
 		}
-		return consumerMap.get(leader)
+
+		return consumer
 	}
 }

@@ -1,6 +1,7 @@
 package smartthings.boundary.util
 
 import groovy.json.JsonSlurper
+import kafka.cluster.Broker
 import kafka.javaapi.consumer.SimpleConsumer
 import org.apache.curator.framework.CuratorFramework
 
@@ -15,20 +16,22 @@ class ZkUtil {
 		return null
 	}
 
-	static SimpleConsumer getConsumer(CuratorFramework curator, Integer brokerId) {
+	static Broker getBroker(CuratorFramework curator, Integer brokerId) {
 		byte[] brokerData = curator.data.forPath("/brokers/ids/${brokerId}")
 		if (brokerData) {
 			Map<String, Object> data = (Map<String, Object>) new JsonSlurper().parse(brokerData)
-			if (data) {
-				return new SimpleConsumer(
-						(String) data.host,
-						(Integer) data.port,
-						10000,
-						100000,
-						'ConsumerOffsetMonitor'
-				)
-			}
+			return new Broker(brokerId, (String) data.host, (Integer) data.port)
 		}
 		return null
+	}
+
+	static SimpleConsumer getConsumer(Broker broker) {
+		return new SimpleConsumer(
+				broker.host(),
+				broker.port(),
+				10000,
+				100000,
+				'ConsumerOffsetMonitor'
+		)
 	}
 }
