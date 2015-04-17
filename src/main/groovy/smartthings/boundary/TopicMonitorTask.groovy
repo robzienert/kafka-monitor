@@ -5,7 +5,6 @@ import kafka.common.TopicAndPartition
 import kafka.javaapi.OffsetRequest
 import kafka.javaapi.consumer.SimpleConsumer
 import org.apache.curator.framework.CuratorFramework
-import smartthings.boundary.util.BoundaryUtil
 import smartthings.boundary.util.ZkUtil
 
 class TopicMonitorTask extends TimerTask {
@@ -56,9 +55,9 @@ class TopicMonitorTask extends TimerTask {
 				long logSize = consumer.getOffsetsBefore(request).offsets(topic, partition)[0]
 				long lag = logSize - offset
 
-				println("${BoundaryUtil.metricName('LOGSIZE', topic, partition)} ${logSize}")
-				println("${BoundaryUtil.metricName('OFFSET', topic, partition)} ${offset}")
-				println("${BoundaryUtil.metricName('LAG', topic, partition)} ${lag}")
+				println("KAFKA_LOGSIZE ${topic}_${partition} ${logSize}")
+				println("KAFKA_OFFSET ${topic}_${partition} ${offset}")
+				println("KAFKA_LAG ${topic}_${partition} ${lag}")
 			}
 		}
 	}

@@ -1,9 +1,30 @@
 {
     "description": "Monitors a Kafka cluster's throughput and lag.",
-    "icon": null,
-    "command": "",
-    "postExtract": "",
-    "ignore": "",
-    "metrics": [],
-    "paramSchema": []
+    "icon": "icon.png",
+    "command": "./gradlew run -PappArgs=\"$(zkconnect) $(topics) $(group)\"",
+    "ignore": [".idea", "src/test"],
+    "metrics": ["KAFKA_LOGSIZE", "KAFKA_OFFSET", "KAFKA_LAG"],
+    "paramSchema": [
+        {
+            "title": "ZK Connect",
+            "name": "zkconnect",
+            "description": "The connection string for ZooKeeper, (e.g. host:2181)",
+            "type": "string"
+        },
+        {
+            "title": "Topics",
+            "name": "topics",
+            "description": "A list of topics to monitor",
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        {
+            "title": "Group",
+            "name": "group",
+            "description": "The Kafka topic group",
+            "type": "string"
+        }
+    ]
 }
