@@ -38,10 +38,10 @@ class KafkaMonitorPlugin {
 	}
 
 	void run() {
-		List<String> cachedTopics = currentTopics
+		curator.start()
 
 		Timer timer = new Timer()
-		timer.schedule(new TopicMonitorTask(curator, cachedTopics, group), 0, 1000)
+		timer.schedule(new TopicMonitorTask(curator, currentTopics, group), 0, 1000)
 	}
 
 	List<String> getCurrentTopics() {

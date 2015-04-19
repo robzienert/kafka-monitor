@@ -37,10 +37,9 @@ class TopicMonitorTask extends TimerTask {
 
 	@SuppressWarnings('Println')
 	void processPartition(String topic, Integer partition) {
-		String offsetData = curator.data.forPath("/consumers/${group}/offsets/${topic}/${partition}")?.toString()
-		Long offset = offsetData == null ? 0L : Long.valueOf(offsetData)
-
+		Long offset = ZkUtil.getPartitionOffset(curator, group, topic, partition)
 		Integer leader = ZkUtil.getLeaderForPartition(curator, topic, partition)
+
 		if (leader) {
 			SimpleConsumer consumer = getConsumer(topic, leader)
 
@@ -64,7 +63,7 @@ class TopicMonitorTask extends TimerTask {
 	}
 
 	List<Integer> getPartitionsForTopic(String topic) {
-		return curator.children.forPath("/consumers/${group}/offsets/${topic}").collect { (Integer) it }
+		return curator.children.forPath("/consumers/${group}/offsets/${topic}").collect { Integer.valueOf(it) }
 	}
 
 	SimpleConsumer getConsumer(String topic, Integer leader) {

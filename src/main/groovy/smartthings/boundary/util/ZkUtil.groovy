@@ -25,6 +25,28 @@ class ZkUtil {
 		return null
 	}
 
+	static Long getPartitionOffset(CuratorFramework curator, String group, String topic, Integer partition) {
+		Long offset = 0L
+
+		byte[] offsetData = curator.data.forPath("/consumers/${group}/offsets/${topic}/${partition}")
+		if (offsetData) {
+			ByteArrayOutputStream baos
+			try {
+				baos = new ByteArrayOutputStream()
+				baos.write(offsetData)
+				offset = Long.valueOf(baos.toString())
+			} finally {
+				if (baos) {
+					baos.close()
+				}
+			}
+
+			return offset
+		}
+
+		return offset
+	}
+
 	static SimpleConsumer getConsumer(Broker broker) {
 		return new SimpleConsumer(
 				broker.host(),
