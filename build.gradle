@@ -6,6 +6,7 @@ buildscript {
                 username artifactoryUsername
                 password artifactoryPassword
             }
+
             url "http://artifactory.smartthings.com/libs-release-local"
         }
         jcenter()
@@ -19,6 +20,9 @@ buildscript {
 apply plugin: 'smartthings.groovy'
 apply plugin: 'application'
 apply plugin: 'groovy'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+targetCompatibility = 1.7
 
 group 'smartthings'
 mainClassName = 'smartthings.boundary.KafkaMonitorPlugin'
@@ -30,7 +34,7 @@ repositories {
 
 dependencies {
     compile "org.codehaus.groovy:groovy-all:${groovyVersion}"
-    compile 'org.apache.kafka:kafka_2.10:0.8.2.1'
+    compile 'org.apache.kafka:kafka_2.10:0.8.1.1'
     compile 'org.apache.curator:curator-framework:2.7.1'
 }
 

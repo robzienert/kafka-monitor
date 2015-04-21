@@ -40,7 +40,7 @@ class TopicMonitorTask extends TimerTask {
 		Long offset = ZkUtil.getPartitionOffset(curator, group, topic, partition)
 		Integer leader = ZkUtil.getLeaderForPartition(curator, topic, partition)
 
-		if (leader) {
+		if (leader != null) {
 			SimpleConsumer consumer = getConsumer(topic, leader)
 
 			if (consumer) {

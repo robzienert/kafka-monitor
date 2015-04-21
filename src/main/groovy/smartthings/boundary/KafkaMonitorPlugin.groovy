@@ -7,7 +7,7 @@ import org.apache.curator.retry.ExponentialBackoffRetry
 @SuppressWarnings('DuplicateNumberLiteral')
 class KafkaMonitorPlugin {
 
-	private static final int ZK_TIMEOUT = 30000
+	private static final int ZK_TIMEOUT = 1000
 
 	static void main(String[] args) {
 		String zkconnect = args[0]
