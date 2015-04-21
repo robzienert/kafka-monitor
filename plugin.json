@@ -1,7 +1,7 @@
 {
     "description": "Monitors a Kafka cluster's throughput and lag.",
     "icon": "icon.png",
-    "command": "./gradlew run -PappArgs=\"$(zkconnect) $(topics) $(group)\"",
+    "command": "java -jar kafka-monitor-all.jar $(zkconnect) $(topics) $(group)",
     "ignore": [".idea", "src/test"],
     "metrics": ["KAFKA_LOGSIZE", "KAFKA_OFFSET", "KAFKA_LAG"],
     "paramSchema": [
