@@ -1,13 +1,13 @@
-package smartthings.boundary
+package smartthings.kafkamonitor
 
 import org.apache.curator.framework.CuratorFramework
 import org.apache.curator.framework.CuratorFrameworkFactory
 import org.apache.curator.retry.ExponentialBackoffRetry
-import smartthings.boundary.client.Client
-import smartthings.boundary.client.InfluxDbClient
+import smartthings.kafkamonitor.client.Client
+import smartthings.kafkamonitor.client.InfluxDbClient
 
 @SuppressWarnings('DuplicateNumberLiteral')
-class KafkaMonitorPlugin {
+class KafkaMonitorApp {
 
 	private static final int ZK_TIMEOUT = 1000
 
@@ -22,7 +22,7 @@ class KafkaMonitorPlugin {
 		)
 
 		CuratorFramework framework = createCuratorFramework(config.zkconnect)
-		new KafkaMonitorPlugin(framework, client, (List<String>) config.topic.split(','), config.group).run()
+		new KafkaMonitorApp(framework, client, (List<String>) config.topic.split(','), config.group).run()
 	}
 
 	static CuratorFramework createCuratorFramework(String zkconnect) {
@@ -39,7 +39,7 @@ class KafkaMonitorPlugin {
 	List<String> topics
 	String group
 
-	KafkaMonitorPlugin(CuratorFramework curator, Client client, List<String> topics, String group) {
+	KafkaMonitorApp(CuratorFramework curator, Client client, List<String> topics, String group) {
 		this.curator = curator
 		this.client = client
 		this.topics = topics

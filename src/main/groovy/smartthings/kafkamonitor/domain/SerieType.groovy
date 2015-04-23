@@ -1,4 +1,4 @@
-package smartthings.boundary.domain
+package smartthings.kafkamonitor.domain
 
 enum SerieType {
 	LOG_SIZE('logSize'),

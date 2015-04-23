@@ -25,7 +25,7 @@ apply plugin: 'com.github.johnrengelman.shadow'
 targetCompatibility = 1.7
 
 group 'smartthings'
-mainClassName = 'smartthings.boundary.KafkaMonitorPlugin'
+mainClassName = 'smartthings.boundary.KafkaMonitorApp'
 
 repositories {
     mavenLocal()

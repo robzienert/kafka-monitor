@@ -1,4 +1,4 @@
-package smartthings.boundary
+package smartthings.kafkamonitor
 
 import kafka.api.PartitionOffsetRequestInfo
 import kafka.cluster.Broker
@@ -6,10 +6,10 @@ import kafka.common.TopicAndPartition
 import kafka.javaapi.OffsetRequest
 import kafka.javaapi.consumer.SimpleConsumer
 import org.apache.curator.framework.CuratorFramework
-import smartthings.boundary.client.Client
-import smartthings.boundary.domain.KafkaSerie
-import smartthings.boundary.domain.SerieType
-import smartthings.boundary.util.ZkUtil
+import smartthings.kafkamonitor.client.Client
+import smartthings.kafkamonitor.domain.KafkaSerie
+import smartthings.kafkamonitor.domain.SerieType
+import smartthings.kafkamonitor.util.ZkUtil
 
 class TopicMonitorTask extends TimerTask {
 

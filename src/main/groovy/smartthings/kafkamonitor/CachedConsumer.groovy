@@ -1,4 +1,4 @@
-package smartthings.boundary
+package smartthings.kafkamonitor
 
 import kafka.cluster.Broker
 import kafka.javaapi.consumer.SimpleConsumer

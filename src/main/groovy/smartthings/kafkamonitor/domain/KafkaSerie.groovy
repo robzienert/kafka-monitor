@@ -1,4 +1,4 @@
-package smartthings.boundary.domain
+package smartthings.kafkamonitor.domain
 
 import groovy.transform.Immutable
 

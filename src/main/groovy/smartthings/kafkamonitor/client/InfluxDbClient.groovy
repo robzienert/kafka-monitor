@@ -1,9 +1,9 @@
-package smartthings.boundary.client
+package smartthings.kafkamonitor.client
 
 import org.influxdb.InfluxDB
 import org.influxdb.InfluxDBFactory
 import org.influxdb.dto.Serie
-import smartthings.boundary.domain.KafkaSerie
+import smartthings.kafkamonitor.domain.KafkaSerie
 
 import java.util.concurrent.TimeUnit
 

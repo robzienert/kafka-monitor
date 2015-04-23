@@ -1,4 +1,4 @@
-package smartthings.boundary.util
+package smartthings.kafkamonitor.util
 
 import groovy.json.JsonSlurper
 import kafka.cluster.Broker

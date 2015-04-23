@@ -1,6 +1,6 @@
-package smartthings.boundary.client
+package smartthings.kafkamonitor.client
 
-import smartthings.boundary.domain.KafkaSerie
+import smartthings.kafkamonitor.domain.KafkaSerie
 
 class BoundaryClient implements Client {
 
