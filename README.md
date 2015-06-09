@@ -1,6 +1,6 @@
 # kafka-monitor
 
-Boundary Kafka monitoring plugin.
+Kafka monitoring plugin for influxdb.
 
 `$ java -jar kafka-monitor-all.jar config.groovy`
 
